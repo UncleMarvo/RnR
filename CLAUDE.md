@@ -193,6 +193,12 @@ NEXT_PUBLIC_APP_NAME      # App name (R+R)
 /api/auth/forgot-password          POST — send reset email
 /api/products                      GET — all active products
 /api/products/[slug]               GET — single product
+/api/clubs/my-settings             GET — club discount + address (CLUB_MEMBER)
+/api/addresses                     GET + POST — saved addresses
+/api/checkout                      POST — create Stripe Payment Intent
+/api/webhooks/stripe               POST — Stripe webhook handler
+/api/orders                        GET — orders (role-based)
+/api/orders/[id]                   GET — single order with items
 ```
 
 ---
@@ -233,8 +239,8 @@ Defined in middleware.ts:
 | Foundation files (lib/, types/, middleware) | ✅ Complete |
 | Database (Railway, migrations, seed data) | ✅ Complete |
 | Authentication (all 4 user types, invite flow) | ✅ Complete |
-| Shop UI (product listing, detail, cart store) | 🔲 In Progress |
-| Cart + Checkout (Stripe) | 🔲 Pending |
+| Shop UI (product listing, detail, cart store) | ✅ Complete |
+| Cart + Checkout (Stripe) | ✅ Complete |
 | Super Admin dashboard | 🔲 Pending |
 | Club Admin dashboard | 🔲 Pending |
 | Account pages | 🔲 Pending |
@@ -278,4 +284,5 @@ Defined in middleware.ts:
 
 ---
 
-*Last updated: Phase 2 — Auth complete, Shop in progress*
+*Last updated: Phase 3 — Auth, Shop, Cart + Checkout complete*
+*Repo: https://github.com/UncleMarvo/RnR*
