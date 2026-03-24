@@ -1,0 +1,393 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  CLUB_ADMIN
+  CLUB_MEMBER
+  PUBLIC
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum DeliveryType {
+  CLUB
+  HOME
+}
+
+enum InviteStatus {
+  PENDING
+  USED
+  EXPIRED
+  REVOKED
+}
+
+enum RevenueShareStatus {
+  PENDING
+  TRANSFERRED
+  CANCELLED
+}
+
+enum ShipmentStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  RETURNED
+}
+
+enum StockMovementType {
+  PURCHASE
+  SALE
+  ADJUSTMENT
+  RETURN
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  emailVerified  DateTime?
+  passwordHash   String?
+  firstName      String
+  lastName       String
+  phone          String?
+  role           UserRole  @default(PUBLIC)
+  isActive              Boolean   @default(true)
+  passwordResetToken    String?   @unique
+  passwordResetExpiry   DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  clubMembership ClubMember?
+  clubAdmin      ClubAdmin?
+  orders         Order[]
+  addresses      Address[]
+  invitesSent    Invite[]    @relation("InviteSender")
+  sessions       Session[]
+  auditLogs      AuditLog[]
+
+  @@map("users")
+}
+
+model Session {
+  id                  String   @id @default(cuid())
+  userId              String
+  token               String   @unique
+  expiresAt           DateTime
+  ipAddress           String?
+  userAgent           String?
+  createdAt           DateTime @default(now())
+  impersonatingClubId String?
+
+  impersonatingClub Club?   @relation("ImpersonationSessions", fields: [impersonatingClubId], references: [id])
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Club {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  addressLine1      String
+  addressLine2      String?
+  city              String
+  county            String?
+  eircode           String?
+  country           String   @default("IE")
+  contactFirstName  String
+  contactLastName   String
+  contactEmail      String
+  contactPhone      String?
+  logoUrl           String?
+  isActive          Boolean  @default(true)
+  stripeAccountId   String?  @unique
+  stripeOnboarded   Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  settings              ClubSettings?
+  admins                ClubAdmin[]
+  members               ClubMember[]
+  invites               Invite[]
+  orders                Order[]
+  revenueShares         RevenueShare[]
+  impersonationSessions Session[]      @relation("ImpersonationSessions")
+
+  @@map("clubs")
+}
+
+model ClubSettings {
+  id                     String   @id @default(cuid())
+  clubId                 String   @unique
+  discountEnabled        Boolean  @default(false)
+  discountPercentage     Decimal  @default(0) @db.Decimal(5, 2)
+  revenueShareEnabled    Boolean  @default(false)
+  revenueSharePercentage Decimal  @default(0) @db.Decimal(5, 2)
+  minimumOrderEnabled    Boolean  @default(false)
+  minimumOrderAmount     Decimal  @default(0) @db.Decimal(10, 2)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+
+  @@map("club_settings")
+}
+
+model ClubAdmin {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  clubId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  club Club @relation(fields: [clubId], references: [id], onDelete: Cascade)
+
+  @@map("club_admins")
+}
+
+model ClubMember {
+  id       String   @id @default(cuid())
+  userId   String   @unique
+  clubId   String
+  inviteId String?  @unique
+  joinedAt DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  club   Club    @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  invite Invite? @relation(fields: [inviteId], references: [id])
+
+  @@map("club_members")
+}
+
+model Invite {
+  id          String       @id @default(cuid())
+  token       String       @unique @default(cuid())
+  clubId      String
+  sentToEmail String?
+  sentById    String
+  status      InviteStatus @default(PENDING)
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime     @default(now())
+
+  club      Club        @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  sentBy    User        @relation("InviteSender", fields: [sentById], references: [id])
+  claimedBy ClubMember?
+
+  @@map("invites")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  imageUrl    String?
+  imageKey    String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants ProductVariant[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id                String   @id @default(cuid())
+  productId         String
+  name              String
+  sku               String   @unique
+  flavour           String?
+  size              String?
+  price             Decimal  @db.Decimal(10, 2)
+  stockQty          Int      @default(0)
+  lowStockThreshold Int      @default(10)
+  isActive          Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems     OrderItem[]
+  stockMovements StockMovement[]
+
+  @@map("product_variants")
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  label     String?
+  firstName String
+  lastName  String
+  line1     String
+  line2     String?
+  city      String
+  county    String?
+  eircode   String?
+  country   String   @default("IE")
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@map("addresses")
+}
+
+model Order {
+  id                    String       @id @default(cuid())
+  orderNumber           String       @unique
+  userId                String
+  clubId                String?
+  status                OrderStatus  @default(PENDING)
+  deliveryType          DeliveryType
+  addressId             String?
+  subtotal              Decimal      @db.Decimal(10, 2)
+  discountPercentage    Decimal      @default(0) @db.Decimal(5, 2)
+  discountAmount        Decimal      @default(0) @db.Decimal(10, 2)
+  total                 Decimal      @db.Decimal(10, 2)
+  currency              String       @default("EUR")
+  stripePaymentIntentId String?      @unique
+  stripePaymentStatus   String?
+  notes                 String?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  club         Club?         @relation(fields: [clubId], references: [id])
+  address      Address?      @relation(fields: [addressId], references: [id])
+  items        OrderItem[]
+  shipment     Shipment?
+  revenueShare RevenueShare?
+  refunds      Refund[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  variantId      String
+  quantity       Int
+  unitPrice      Decimal @db.Decimal(10, 2)
+  discountAmount Decimal @default(0) @db.Decimal(10, 2)
+  lineTotal      Decimal @db.Decimal(10, 2)
+
+  order   Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@map("order_items")
+}
+
+model Shipment {
+  id             String         @id @default(cuid())
+  orderId        String         @unique
+  status         ShipmentStatus @default(PENDING)
+  carrier        String?
+  trackingNumber String?
+  trackingUrl    String?
+  shippedAt      DateTime?
+  deliveredAt    DateTime?
+  notes          String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("shipments")
+}
+
+model RevenueShare {
+  id               String             @id @default(cuid())
+  orderId          String             @unique
+  clubId           String
+  orderTotal       Decimal            @db.Decimal(10, 2)
+  percentage       Decimal            @db.Decimal(5, 2)
+  amount           Decimal            @db.Decimal(10, 2)
+  status           RevenueShareStatus @default(PENDING)
+  stripeTransferId String?            @unique
+  transferredAt    DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+  club  Club  @relation(fields: [clubId], references: [id])
+
+  @@map("revenue_shares")
+}
+
+model Refund {
+  id             String   @id @default(cuid())
+  orderId        String
+  amount         Decimal  @db.Decimal(10, 2)
+  reason         String?
+  stripeRefundId String?  @unique
+  processedAt    DateTime @default(now())
+  processedBy    String
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("refunds")
+}
+
+model StockMovement {
+  id        String            @id @default(cuid())
+  variantId String
+  type      StockMovementType
+  quantity  Int
+  qtyBefore Int
+  qtyAfter  Int
+  reference String?
+  notes     String?
+  createdBy String
+  createdAt DateTime          @default(now())
+
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@map("stock_movements")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model GlobalSettings {
+  id                  String   @id @default(cuid())
+  minimumOrderEnabled Boolean  @default(false)
+  minimumOrderAmount  Decimal  @default(0) @db.Decimal(10, 2)
+  currency            String   @default("EUR")
+  maintenanceMode     Boolean  @default(false)
+  updatedAt           DateTime @updatedAt
+  updatedBy           String?
+
+  @@map("global_settings")
+}
