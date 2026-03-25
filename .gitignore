@@ -39,3 +39,7 @@ yarn-error.log*
 
 # Railway
 .railway/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+*.tsbuildinfo
