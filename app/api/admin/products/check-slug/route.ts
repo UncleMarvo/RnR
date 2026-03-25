@@ -1,0 +1,27 @@
+import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+
+export async function GET(request: NextRequest) {
+  const session = await auth()
+  if (!session?.user?.id || session.user.role !== "SUPER_ADMIN") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  }
+
+  const { searchParams } = new URL(request.url)
+  const slug = searchParams.get("slug")
+  const excludeId = searchParams.get("excludeId")
+
+  if (!slug) {
+    return NextResponse.json({ error: "slug parameter is required" }, { status: 400 })
+  }
+
+  const existing = await prisma.product.findFirst({
+    where: {
+      slug,
+      ...(excludeId ? { id: { not: excludeId } } : {}),
+    },
+  })
+
+  return NextResponse.json({ available: !existing })
+}
