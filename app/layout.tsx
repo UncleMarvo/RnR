@@ -1,6 +1,8 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
+import { PWARegister } from "@/components/PWARegister"
+import { CookieBanner } from "@/components/gdpr/CookieBanner"
 import "./globals.css"
 
 const inter = Inter({
@@ -11,6 +13,19 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "R+R",
   description: "Premium sports supplements",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "R+R",
+  },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#09090b",
 }
 
 export default function RootLayout({
@@ -20,9 +35,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} dark h-full antialiased`}>
+      <head>
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster />
+        <CookieBanner />
+        <PWARegister />
       </body>
     </html>
   )

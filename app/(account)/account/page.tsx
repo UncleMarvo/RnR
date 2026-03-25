@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { ProfileForm } from "@/components/account/ProfileForm"
 import { PasswordChangeForm } from "@/components/account/PasswordChangeForm"
+import { DataPrivacySection } from "@/components/account/DataPrivacySection"
 
 export default async function AccountPage() {
   const session = await auth()
@@ -90,6 +91,13 @@ export default async function AccountPage() {
           Change Password
         </h2>
         <PasswordChangeForm />
+      </div>
+
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+        <h2 className="mb-4 text-lg font-semibold text-zinc-100">
+          Data &amp; Privacy
+        </h2>
+        <DataPrivacySection />
       </div>
     </div>
   )
