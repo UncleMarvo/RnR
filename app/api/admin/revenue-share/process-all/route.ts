@@ -4,6 +4,8 @@ import { transferRevenueShare } from "@/lib/stripe"
 import { eurosToCents } from "@/lib/utils"
 import { NextResponse } from "next/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST() {
   const session = await auth()
   if (!session?.user || session.user.role !== "SUPER_ADMIN") {

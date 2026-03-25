@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 
+export const dynamic = 'force-dynamic'
+
 interface ClubSettingsData {
   id: string
   clubId: string

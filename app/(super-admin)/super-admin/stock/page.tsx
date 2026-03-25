@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StockTabs } from "./StockTabs"
 
+export const dynamic = 'force-dynamic'
+
 export default async function StockPage() {
   const [variants, movements] = await Promise.all([
     prisma.productVariant.findMany({

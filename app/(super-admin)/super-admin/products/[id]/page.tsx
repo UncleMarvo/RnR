@@ -4,6 +4,8 @@ import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { ProductForm } from "@/components/admin/super/ProductForm"
 import { VariantManager } from "@/components/admin/super/VariantManager"
 
+export const dynamic = 'force-dynamic'
+
 export default async function EditProductPage({
   params,
 }: {

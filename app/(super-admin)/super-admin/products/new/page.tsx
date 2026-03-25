@@ -1,6 +1,8 @@
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { ProductForm } from "@/components/admin/super/ProductForm"
 
+export const dynamic = 'force-dynamic'
+
 export default function NewProductPage() {
   return (
     <div className="space-y-6">

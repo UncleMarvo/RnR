@@ -8,6 +8,8 @@ import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { ClubDetailTabs } from "./ClubDetailTabs"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubDetailPage({
   params,
 }: {

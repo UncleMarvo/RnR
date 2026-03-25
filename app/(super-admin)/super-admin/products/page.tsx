@@ -6,6 +6,8 @@ import { DataTable } from "@/components/admin/shared/DataTable"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { formatPrice } from "@/lib/utils"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
     orderBy: { sortOrder: "asc" },

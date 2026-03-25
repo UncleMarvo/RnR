@@ -4,6 +4,8 @@ import { Plus } from "lucide-react"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { ClubsSearch } from "./ClubsSearch"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubsPage() {
   const clubs = await prisma.club.findMany({
     orderBy: { name: "asc" },

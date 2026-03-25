@@ -8,6 +8,8 @@ import { StatCard } from "@/components/admin/shared/StatCard"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { DollarSign, Clock, Calendar } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminRevenue() {
   const session = await auth()
   if (!session?.user) redirect("/login")

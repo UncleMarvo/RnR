@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma"
 import { updateProductSchema } from "@/lib/validations/admin"
 import { deleteFromR2 } from "@/lib/r2"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

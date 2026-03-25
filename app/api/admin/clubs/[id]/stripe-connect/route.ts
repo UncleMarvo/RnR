@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { createClubStripeAccount, createClubOnboardingLink } from "@/lib/stripe"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

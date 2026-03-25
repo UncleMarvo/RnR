@@ -9,6 +9,8 @@ import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StatCard } from "@/components/admin/shared/StatCard"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminDashboard() {
   const session = await auth()
   if (!session?.user) redirect("/login")

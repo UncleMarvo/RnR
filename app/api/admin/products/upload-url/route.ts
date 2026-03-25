@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { getPresignedUploadUrl } from "@/lib/r2"
 
+export const dynamic = 'force-dynamic'
+
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const TYPE_EXTENSIONS: Record<string, string> = {
   "image/jpeg": "jpg",

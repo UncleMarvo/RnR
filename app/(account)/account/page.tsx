@@ -5,6 +5,8 @@ import { ProfileForm } from "@/components/account/ProfileForm"
 import { PasswordChangeForm } from "@/components/account/PasswordChangeForm"
 import { DataPrivacySection } from "@/components/account/DataPrivacySection"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AccountPage() {
   const session = await auth()
   if (!session?.user) redirect("/login")

@@ -9,6 +9,8 @@ import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { OrdersFilter } from "./OrdersFilter"
 import { Prisma } from "@prisma/client"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminOrders(props: {
   searchParams: Promise<{
     status?: string

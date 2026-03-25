@@ -4,6 +4,8 @@ import { transferRevenueShare, stripe } from "@/lib/stripe"
 import { eurosToCents } from "@/lib/utils"
 import { NextRequest, NextResponse } from "next/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }

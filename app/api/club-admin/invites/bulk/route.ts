@@ -5,6 +5,8 @@ import { resend } from "@/lib/resend"
 import { bulkInviteSchema } from "@/lib/validations/admin"
 import { NextRequest, NextResponse } from "next/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user) {

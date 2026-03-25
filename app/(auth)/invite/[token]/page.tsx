@@ -1,5 +1,7 @@
 import { InviteForm } from "./invite-form"
 
+export const dynamic = 'force-dynamic'
+
 type InviteValidation =
   | { valid: true; clubName: string; sentToEmail: string | null }
   | { valid: false; reason: string }

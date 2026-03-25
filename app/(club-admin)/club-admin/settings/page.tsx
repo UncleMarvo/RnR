@@ -5,6 +5,8 @@ import { redirect } from "next/navigation"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { ClubSettingsView } from "@/components/admin/club/ClubSettingsView"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminSettings() {
   const session = await auth()
   if (!session?.user) redirect("/login")

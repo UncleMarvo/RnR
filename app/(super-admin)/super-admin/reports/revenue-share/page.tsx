@@ -8,6 +8,8 @@ import { ProcessAllButton, ProcessTransferButton } from "./RevenueShareClient"
 import { DollarSign, Clock, Shield } from "lucide-react"
 import { Suspense } from "react"
 
+export const dynamic = 'force-dynamic'
+
 function getDateRange(range: string): { from: Date; to: Date } {
   const now = new Date()
   switch (range) {

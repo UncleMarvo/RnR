@@ -6,6 +6,8 @@ import { redirect } from "next/navigation"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { MembersTable } from "./MembersTable"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminMembers() {
   const session = await auth()
   if (!session?.user) redirect("/login")

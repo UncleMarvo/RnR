@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { addressSchema } from "@/lib/validations/checkout"
 
+export const dynamic = 'force-dynamic'
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

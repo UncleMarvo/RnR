@@ -4,6 +4,8 @@ import { resend } from "@/lib/resend"
 import { resetPasswordSchema } from "@/lib/validations/account"
 import bcrypt from "bcryptjs"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()

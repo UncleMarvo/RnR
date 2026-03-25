@@ -7,6 +7,8 @@ import Link from "next/link"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminOrderDetail(props: {
   params: Promise<{ id: string }>
 }) {

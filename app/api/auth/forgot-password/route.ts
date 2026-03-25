@@ -4,6 +4,8 @@ import crypto from "crypto"
 import { prisma } from "@/lib/prisma"
 import { resend } from "@/lib/resend"
 
+export const dynamic = 'force-dynamic'
+
 const forgotPasswordBodySchema = z.object({
   email: z.string().email("Invalid email address"),
 })

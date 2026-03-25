@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 
+export const dynamic = 'force-dynamic'
+
 export default function CreateClubPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)

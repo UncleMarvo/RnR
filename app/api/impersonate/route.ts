@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user || session.user.role !== "SUPER_ADMIN") {

@@ -5,6 +5,8 @@ import { stripe } from "@/lib/stripe"
 import { eurosToCents, calculateDiscount } from "@/lib/utils"
 import { checkoutSchema } from "@/lib/validations/checkout"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   const session = await auth()
   if (!session?.user?.id) {

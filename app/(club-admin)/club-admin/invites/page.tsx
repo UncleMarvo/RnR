@@ -8,6 +8,8 @@ import { StatCard } from "@/components/admin/shared/StatCard"
 import { Mail, CheckCircle, XCircle } from "lucide-react"
 import { InvitesTable } from "./InvitesTable"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ClubAdminInvites() {
   const session = await auth()
   if (!session?.user) redirect("/login")

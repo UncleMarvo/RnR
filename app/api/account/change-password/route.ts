@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 import { z } from "zod"
 
+export const dynamic = 'force-dynamic'
+
 const changePasswordBody = z.object({
   currentPassword: z.string().min(1),
   newPassword: z

@@ -3,6 +3,8 @@ import { z } from "zod"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 
+export const dynamic = 'force-dynamic'
+
 const inviteRegisterBodySchema = z.object({
   token: z.string(),
   firstName: z.string().min(2, "First name is required"),

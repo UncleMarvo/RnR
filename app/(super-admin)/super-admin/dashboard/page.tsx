@@ -6,6 +6,8 @@ import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StatCard } from "@/components/admin/shared/StatCard"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 
+export const dynamic = 'force-dynamic'
+
 export default async function SuperAdminDashboard() {
   const [clubCount, memberCount, orderCount, revenueResult, recentOrders, allVariants, clubOverview] =
     await Promise.all([

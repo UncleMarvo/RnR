@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { AddressesClient } from "@/components/account/AddressesClient"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AddressesPage() {
   const session = await auth()
   if (!session?.user) redirect("/login")

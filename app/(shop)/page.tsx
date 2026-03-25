@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma"
 import { ProductCard } from "@/components/shop/ProductCard"
 import type { ProductWithVariants } from "@/types"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ShopPage() {
   const products = await prisma.product.findMany({
     where: { isActive: true },
