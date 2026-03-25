@@ -28,6 +28,18 @@ export default auth((req: NextRequest & { auth: any }) => {
         loginUrl.searchParams.set("callbackUrl", pathname)
         return NextResponse.redirect(loginUrl)
       }
+
+      // Impersonation check for /club-admin routes
+      if (prefix === "/club-admin" && session.user.role === "SUPER_ADMIN") {
+        const impersonatingCookie = req.cookies.get("rnr-impersonating")
+        if (!impersonatingCookie?.value) {
+          // Super Admin cannot access club admin without impersonating
+          return NextResponse.redirect(new URL("/super-admin/dashboard", req.url))
+        }
+        // Has impersonation cookie — allow through
+        return NextResponse.next()
+      }
+
       if (!allowedRoles.includes(session.user.role)) {
         return NextResponse.redirect(new URL("/unauthorised", req.url))
       }
