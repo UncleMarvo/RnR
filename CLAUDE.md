@@ -235,18 +235,14 @@ Defined in middleware.ts:
 
 | Phase | Status |
 |---|---|
-| Project scaffold (Next.js 16, Tailwind v4, shadcn) | ✅ Complete |
-| Foundation files (lib/, types/, middleware) | ✅ Complete |
-| Database (Railway, migrations, seed data) | ✅ Complete |
-| Authentication (all 4 user types, invite flow) | ✅ Complete |
-| Shop UI (product listing, detail, cart store) | ✅ Complete |
-| Cart + Checkout (Stripe) | ✅ Complete |
-| Super Admin dashboard | 🔲 Pending |
-| Club Admin dashboard | 🔲 Pending |
-| Account pages | 🔲 Pending |
-| PWA manifest + offline | 🔲 Pending |
-| GDPR compliance | 🔲 Pending |
-| Password reset flow (reset page) | 🔲 Pending |
+| Foundation + Auth | ✅ Complete |
+| Shop UI + Cart + Checkout + Stripe | ✅ Complete |
+| Super Admin (all sections) | ✅ Complete |
+| Club Admin (all sections) | ✅ Complete |
+| Account pages + Password reset | ✅ Complete |
+| PWA manifest + service worker | ✅ Complete |
+| GDPR compliance | ✅ Complete |
+| Deploy to Railway | 🔲 Next |
 
 ---
 
@@ -284,5 +280,49 @@ Defined in middleware.ts:
 
 ---
 
-*Last updated: Phase 3 — Auth, Shop, Cart + Checkout complete*
+## New Routes Added (post-initial-build)
+
+### Account
+```
+/account                   Profile + data privacy section
+/account/orders            Order history
+/account/orders/[id]       Order detail
+/account/addresses         Saved addresses (PUBLIC only)
+```
+
+### Auth
+```
+/reset-password/[token]    Password reset (token from email)
+```
+
+### Shop
+```
+/privacy                   GDPR privacy policy
+```
+
+### API — Account
+```
+/api/account/profile       GET + PATCH profile
+/api/account/change-password  POST change password
+/api/account/addresses/[id]   PUT + DELETE address
+/api/account/export        GET — JSON data export download
+/api/account/delete        POST — soft delete with password
+```
+
+### API — Auth
+```
+/api/auth/reset-password   POST — validate token + update hash
+```
+
+### PWA
+```
+/manifest.json             PWA manifest
+/sw.js                     Service worker
+/icons/icon-192.png        PWA icon 192×192
+/icons/icon-512.png        PWA icon 512×512
+```
+
+---
+
+*Last updated: All features complete — ready for Railway deployment*
 *Repo: https://github.com/UncleMarvo/RnR*
