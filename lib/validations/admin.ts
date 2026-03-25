@@ -74,3 +74,18 @@ export const updateVariantSchema = createVariantSchema
   .partial()
 
 export type UpdateVariantInput = z.input<typeof updateVariantSchema>
+
+// Invite schemas
+export const createInviteSchema = z.object({
+  email: z.string().email().optional().or(z.literal("")),
+  expiryDays: z.number().int().min(1).max(90).default(14),
+})
+
+export type CreateInviteInput = z.infer<typeof createInviteSchema>
+
+export const bulkInviteSchema = z.object({
+  emails: z.array(z.string().email()).min(1).max(100),
+  expiryDays: z.number().int().min(1).max(90).default(14),
+})
+
+export type BulkInviteInput = z.infer<typeof bulkInviteSchema>
