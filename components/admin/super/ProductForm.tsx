@@ -107,34 +107,23 @@ export function ProductForm({ product, mode }: Props) {
     publicUrl: string
     key: string
   }> {
-    // Get presigned URL
-    const urlRes = await fetch("/api/admin/products/upload-url", {
+    // Upload via server-side API route (bypasses R2 CORS)
+    const uploadFormData = new FormData()
+    uploadFormData.append("file", file)
+    uploadFormData.append("productId", product?.id || "new")
+
+    const res = await fetch("/api/admin/products/upload", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        filename: file.name,
-        contentType: file.type,
-        productId: product?.id,
-      }),
+      body: uploadFormData,
+      // Do NOT set Content-Type — browser sets it with boundary
     })
 
-    if (!urlRes.ok) {
-      throw new Error("Failed to get upload URL")
+    if (!res.ok) {
+      const err = await res.json()
+      throw new Error(err.error || "Upload failed")
     }
 
-    const { uploadUrl, publicUrl, key } = await urlRes.json()
-
-    // Upload directly to R2
-    const uploadRes = await fetch(uploadUrl, {
-      method: "PUT",
-      body: file,
-      headers: { "Content-Type": file.type },
-    })
-
-    if (!uploadRes.ok) {
-      throw new Error("Failed to upload image")
-    }
-
+    const { publicUrl, key } = await res.json()
     return { publicUrl, key }
   }
 
