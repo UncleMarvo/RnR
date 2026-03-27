@@ -21,7 +21,7 @@ export function CookieBanner() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-950 p-4 sm:p-6">
+    <div className="fixed bottom-16 md:bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-zinc-950 p-4 sm:p-6 shadow-lg">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 sm:flex-row sm:justify-between">
         <p className="text-sm text-zinc-400 text-center sm:text-left">
           We use essential cookies to keep you logged in and your cart saved.

@@ -36,11 +36,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} dark bg-zinc-950 h-full antialiased`}>
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="bg-zinc-950 text-zinc-50 min-h-full flex flex-col">
         {children}
         <Toaster />
         <CookieBanner />

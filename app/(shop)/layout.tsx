@@ -15,7 +15,7 @@ export default async function ShopLayout({
   return (
     <div className="flex min-h-screen flex-col bg-zinc-950">
       <ShopHeader />
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 pb-32 md:pb-0">{children}</main>
       {!isAdmin && <MobileBottomNav />}
       <footer className="border-t border-zinc-800 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

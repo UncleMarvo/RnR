@@ -81,8 +81,13 @@ export async function POST(
   const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@rnr.ie"
   const fromName = process.env.RESEND_FROM_NAME || "R+R"
 
+  // Safety net — log temp password to Railway console
+  console.log(`Club Admin created: ${email.toLowerCase()} | Temp: ${tempPassword}`)
+
+  let emailSent = false
+
   try {
-    await resend.emails.send({
+    const emailResult = await resend.emails.send({
       from: `${fromName} <${fromEmail}>`,
       to: email.toLowerCase(),
       subject: "You've been set up as a Club Admin on R+R",
@@ -104,9 +109,14 @@ If you have any questions, reply to this email.
 
 — The R+R Team`,
     })
+
+    if (emailResult.error) {
+      console.error('Resend error:', emailResult.error)
+    } else {
+      emailSent = true
+    }
   } catch (emailError) {
     console.error("Failed to send invite email:", emailError)
-    // User is still created — don't block on email failure
   }
 
   // Audit log
@@ -124,8 +134,17 @@ If you have any questions, reply to this email.
     },
   })
 
-  return NextResponse.json(
-    { success: true, email: newUser.email },
-    { status: 201 }
-  )
+  const responseData: Record<string, unknown> = {
+    success: true,
+    email: newUser.email,
+    emailSent,
+  }
+
+  // Only include tempPassword in response if email failed
+  if (!emailSent) {
+    responseData.tempPassword = tempPassword
+    responseData.emailError = 'Email delivery failed'
+  }
+
+  return NextResponse.json(responseData, { status: 201 })
 }

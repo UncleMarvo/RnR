@@ -61,7 +61,7 @@ export function InstallBanner() {
   if (!show) return null
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-30 rounded-xl bg-zinc-800 p-4 shadow-lg md:hidden">
+    <div className="fixed bottom-16 md:bottom-4 left-4 right-4 z-40 rounded-xl bg-zinc-800 p-4 shadow-lg md:hidden">
       <div className="flex items-start gap-3">
         <div className="flex-1">
           <p className="text-sm font-semibold text-white">Install R+R</p>

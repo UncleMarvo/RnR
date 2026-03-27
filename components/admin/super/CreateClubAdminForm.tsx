@@ -22,6 +22,8 @@ export function CreateClubAdminForm({ clubId, clubName, onSuccess }: CreateClubA
     firstName: string
     lastName: string
     email: string
+    emailSent: boolean
+    tempPassword?: string
   } | null>(null)
 
   const {
@@ -59,12 +61,15 @@ export function CreateClubAdminForm({ clubId, clubName, onSuccess }: CreateClubA
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        emailSent: result.emailSent !== false,
+        tempPassword: result.tempPassword,
       })
       reset()
 
+      // Give more time if email failed so admin can copy credentials
       setTimeout(() => {
         onSuccess()
-      }, 3000)
+      }, result.emailSent !== false ? 3000 : 15000)
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {
@@ -83,18 +88,38 @@ export function CreateClubAdminForm({ clubId, clubName, onSuccess }: CreateClubA
       </p>
 
       {success && (
-        <div className="mb-4 rounded-md border border-green-800 bg-green-900/20 px-4 py-3 text-sm text-green-400">
+        <div className={`mb-4 rounded-md border px-4 py-3 text-sm ${
+          success.emailSent
+            ? "border-green-800 bg-green-900/20 text-green-400"
+            : "border-yellow-800 bg-yellow-900/20 text-yellow-400"
+        }`}>
           <div className="flex items-start gap-2">
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
               <p className="font-medium">
                 Account created for {success.firstName} {success.lastName}
               </p>
-              <p className="mt-1 text-green-400/80">
-                An email has been sent to {success.email} with their login
-                details and a temporary password. They will be asked to set
-                a new password when they first log in.
-              </p>
+              {success.emailSent ? (
+                <p className="mt-1 text-green-400/80">
+                  An invite email has been sent to {success.email}
+                </p>
+              ) : (
+                <div className="mt-1 space-y-2">
+                  <p className="text-yellow-400/80">
+                    &#9888; Email could not be sent to {success.email}
+                  </p>
+                  <p className="text-yellow-400/80">
+                    Please share these login details manually:
+                  </p>
+                  <div className="rounded bg-zinc-800 px-3 py-2 font-mono text-xs text-zinc-200">
+                    <p>Login URL: {process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/login</p>
+                    <p>Email: {success.email}</p>
+                    {success.tempPassword && (
+                      <p>Temporary Password: {success.tempPassword}</p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
