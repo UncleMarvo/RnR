@@ -43,14 +43,6 @@ export async function POST(request: NextRequest) {
     // Generate R2 key
     const key = generateProductImageKey(productId, file.name)
 
-    console.log('R2 Config check:', {
-      accountId: process.env.R2_ACCOUNT_ID?.substring(0, 8) + '...',
-      accessKeyLength: process.env.R2_ACCESS_KEY_ID?.length,
-      secretKeyLength: process.env.R2_SECRET_ACCESS_KEY?.length,
-      bucketName: process.env.R2_BUCKET_NAME,
-      publicUrl: process.env.R2_PUBLIC_URL,
-    })
-
     // Upload to R2 server-side (no CORS issues)
     const publicUrl = await uploadToR2(key, buffer, file.type)
 
