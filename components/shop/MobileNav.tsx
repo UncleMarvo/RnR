@@ -4,13 +4,13 @@ import { useState } from "react"
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/react"
 import { Menu, X, ShoppingCart, Package, User, LogOut } from "lucide-react"
-import { useCart } from "@/stores/cartStore"
+import { useHydratedCart } from "@/hooks/useHydratedCart"
 import { useEffect } from "react"
 
 export function MobileNav() {
   const [open, setOpen] = useState(false)
   const { data: session } = useSession()
-  const totalItems = useCart((s) => s.totalItems)
+  const { totalItems } = useHydratedCart()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

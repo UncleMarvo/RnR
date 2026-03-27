@@ -6,7 +6,7 @@ import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { CartItem } from "@/components/shop/CartItem"
-import { useCart } from "@/stores/cartStore"
+import { useHydratedCart } from "@/hooks/useHydratedCart"
 import { formatPrice, calculateDiscount } from "@/lib/utils"
 
 interface ClubSettings {
@@ -27,7 +27,7 @@ export default function CartPage() {
 
 function CartContent() {
   const { data: session } = useSession()
-  const { items, updateQuantity, removeItem, subtotal } = useCart()
+  const { items, updateQuantity, removeItem, subtotal, isHydrated } = useHydratedCart()
   const [clubSettings, setClubSettings] = useState<ClubSettings | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -134,7 +134,8 @@ function CartContent() {
 
             <Link
               href="/checkout"
-              className={buttonVariants({ size: "lg", className: "mt-6 w-full bg-white text-zinc-900 hover:bg-zinc-200" })}
+              aria-disabled={!isHydrated || items.length === 0}
+              className={buttonVariants({ size: "lg", className: `mt-6 w-full bg-white text-zinc-900 hover:bg-zinc-200 ${!isHydrated || items.length === 0 ? "pointer-events-none opacity-50" : ""}` })}
             >
               Proceed to Checkout
             </Link>

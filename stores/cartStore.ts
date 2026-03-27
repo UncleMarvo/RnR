@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { persist, createJSONStorage } from "zustand/middleware"
 
 export interface CartItem {
   variantId: string
@@ -15,6 +15,8 @@ export interface CartItem {
 
 interface CartStore {
   items: CartItem[]
+  _hasHydrated: boolean
+  setHasHydrated: (state: boolean) => void
   addItem: (item: Omit<CartItem, "quantity">) => void
   removeItem: (variantId: string) => void
   updateQuantity: (variantId: string, quantity: number) => void
@@ -27,6 +29,9 @@ export const useCart = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+
+      _hasHydrated: false,
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
 
       addItem: (item) => {
         set((state) => {
@@ -85,6 +90,10 @@ export const useCart = create<CartStore>()(
     }),
     {
       name: "rnr-cart",
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true)
+      },
     }
   )
 )

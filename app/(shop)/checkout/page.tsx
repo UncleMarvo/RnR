@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { StripeProvider } from "@/components/shop/StripeProvider"
 import { CheckoutForm } from "@/components/shop/CheckoutForm"
-import { useCart } from "@/stores/cartStore"
+import { useHydratedCart } from "@/hooks/useHydratedCart"
 import { formatPrice, calculateDiscount } from "@/lib/utils"
 import { addressSchema, type AddressFormData } from "@/lib/validations/checkout"
 
@@ -54,7 +54,7 @@ export default function CheckoutPage() {
 function CheckoutContent() {
   const router = useRouter()
   const { data: session, status: sessionStatus } = useSession()
-  const { items, subtotal } = useCart()
+  const { items, subtotal, isHydrated } = useHydratedCart()
 
   const [clubInfo, setClubInfo] = useState<ClubInfo | null>(null)
   const [addresses, setAddresses] = useState<SavedAddress[]>([])
@@ -91,12 +91,12 @@ function CheckoutContent() {
     }
   }, [sessionStatus, router])
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty (wait for hydration)
   useEffect(() => {
-    if (sessionStatus === "authenticated" && items.length === 0) {
+    if (sessionStatus === "authenticated" && isHydrated && items.length === 0) {
       router.push("/cart")
     }
-  }, [sessionStatus, items.length, router])
+  }, [sessionStatus, isHydrated, items.length, router])
 
   // Fetch club info or addresses
   useEffect(() => {
@@ -214,6 +214,7 @@ function CheckoutContent() {
   if (
     sessionStatus === "loading" ||
     pageLoading ||
+    !isHydrated ||
     items.length === 0
   ) {
     return (

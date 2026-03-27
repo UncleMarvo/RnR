@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { ShoppingCart } from "lucide-react"
-import { useCart } from "@/stores/cartStore"
+import { useHydratedCart } from "@/hooks/useHydratedCart"
 import { useEffect, useState } from "react"
 
 export function CartIconButton() {
-  const totalItems = useCart((s) => s.totalItems)
+  const { totalItems } = useHydratedCart()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
