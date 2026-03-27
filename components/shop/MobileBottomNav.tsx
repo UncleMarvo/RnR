@@ -69,7 +69,7 @@ function MobileBottomNavInner() {
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-zinc-800 bg-zinc-950 md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-50 flex border-t border-zinc-800 bg-zinc-950 md:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
         {tabs.map((tab) => {
