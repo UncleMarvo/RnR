@@ -78,7 +78,7 @@ function LoginForm() {
   }
 
   return (
-    <Card className="border-zinc-800 bg-zinc-900">
+    <Card className="border-zinc-800 bg-zinc-900 p-6 sm:p-8">
       {message === "password-changed" && (
         <div className="mb-4 rounded-md border border-green-800 bg-green-900/20 px-4 py-3 text-center text-sm text-green-400">
           Password changed successfully. Please log in with your new password.
@@ -130,7 +130,7 @@ function LoginForm() {
               <p className="text-sm text-red-400">{errors.password.message}</p>
             )}
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4 py-1 mt-4">
             <div className="flex items-center gap-2">
               <Checkbox id="remember" />
               <Label htmlFor="remember" className="text-sm text-zinc-400 cursor-pointer">
@@ -145,23 +145,25 @@ function LoginForm() {
             </Link>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
+        <CardFooter className="flex flex-col gap-4 pt-2">
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 mt-2"
             disabled={isLoading}
           >
             {isLoading ? "Signing in…" : "Sign in"}
           </Button>
-          <p className="text-center text-sm text-zinc-400">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="text-zinc-200 hover:text-white transition-colors font-medium"
-            >
-              Create one
-            </Link>
-          </p>
+          <div className="mt-4 pt-4 border-t border-zinc-800 w-full text-center">
+            <p className="text-sm text-zinc-400">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-zinc-200 hover:text-white transition-colors font-medium"
+              >
+                Create one
+              </Link>
+            </p>
+          </div>
         </CardFooter>
       </form>
     </Card>

@@ -79,7 +79,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="border-zinc-800 bg-zinc-900">
+    <Card className="border-zinc-800 bg-zinc-900 p-6 sm:p-8">
       <CardHeader className="space-y-2 text-center">
         <div className="mb-2">
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -209,23 +209,25 @@ export default function RegisterPage() {
             </Label>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
+        <CardFooter className="flex flex-col gap-4 pt-2">
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 mt-2"
             disabled={isLoading}
           >
             {isLoading ? "Creating account…" : "Create account"}
           </Button>
-          <p className="text-center text-sm text-zinc-400">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-zinc-200 hover:text-white transition-colors font-medium"
-            >
-              Sign in
-            </Link>
-          </p>
+          <div className="mt-4 pt-4 border-t border-zinc-800 w-full text-center">
+            <p className="text-sm text-zinc-400">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-zinc-200 hover:text-white transition-colors font-medium"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
         </CardFooter>
       </form>
     </Card>

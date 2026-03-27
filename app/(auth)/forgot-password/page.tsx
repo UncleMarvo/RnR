@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <Card className="border-zinc-800 bg-zinc-900">
+    <Card className="border-zinc-800 bg-zinc-900 p-6 sm:p-8">
       <CardHeader className="space-y-2 text-center">
         <div className="mb-2">
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -79,24 +79,26 @@ export default function ForgotPasswordPage() {
               )}
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col gap-4">
+          <CardFooter className="flex flex-col gap-4 pt-2">
             <Button
               type="submit"
-              className="w-full"
+              className="w-full h-11 mt-2"
               disabled={isLoading}
             >
               {isLoading ? "Sending…" : "Send reset link"}
             </Button>
-            <Link
-              href="/login"
-              className="text-center text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
-            >
-              Back to sign in
-            </Link>
+            <div className="mt-4 pt-4 border-t border-zinc-800 w-full text-center">
+              <Link
+                href="/login"
+                className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Back to sign in
+              </Link>
+            </div>
           </CardFooter>
         </form>
       ) : (
-        <CardFooter className="flex flex-col gap-4 pt-0">
+        <CardFooter className="flex flex-col gap-4 pt-2">
           <Link href="/login" className="w-full">
             <Button variant="outline" className="w-full">
               Back to sign in

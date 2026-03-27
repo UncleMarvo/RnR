@@ -62,7 +62,7 @@ export function ForceChangePasswordForm() {
   }
 
   return (
-    <Card className="border-zinc-800 bg-zinc-900">
+    <Card className="border-zinc-800 bg-zinc-900 p-6 sm:p-8">
       <CardHeader className="space-y-2 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800">
           <Lock className="h-6 w-6 text-zinc-300" />
@@ -117,7 +117,7 @@ export function ForceChangePasswordForm() {
               <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
             )}
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full h-11 mt-4" disabled={isLoading}>
             {isLoading ? "Setting password..." : "Set Password & Continue"}
           </Button>
         </CardContent>

@@ -4,12 +4,11 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { SessionProvider, useSession } from "next-auth/react"
-import { Home, ShoppingBag, ShoppingCart, User } from "lucide-react"
+import { ShoppingBag, ShoppingCart, User } from "lucide-react"
 import { useCart } from "@/stores/cartStore"
 import { cn } from "@/lib/utils"
 
 const tabs = [
-  { label: "Home", icon: Home, href: "/" },
   { label: "Shop", icon: ShoppingBag, href: "/" },
   { label: "Cart", icon: ShoppingCart, href: "/cart" },
   { label: "Account", icon: User, href: "/account" },
@@ -41,11 +40,11 @@ function MobileBottomNavInner() {
   }
 
   const isActive = (tab: (typeof tabs)[number]) => {
-    if (tab.label === "Home" || tab.label === "Shop") {
-      return pathname === "/"
+    if (tab.label === "Shop") {
+      return pathname === "/" || pathname.startsWith("/products")
     }
     if (tab.label === "Cart") {
-      return pathname === "/cart" || pathname.startsWith("/cart/")
+      return pathname === "/cart" || pathname.startsWith("/checkout")
     }
     if (tab.label === "Account") {
       return pathname.startsWith("/account") || pathname === "/login"
