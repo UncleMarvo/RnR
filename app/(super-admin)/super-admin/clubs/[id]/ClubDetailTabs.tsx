@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { StatCard } from "@/components/admin/shared/StatCard"
+import { CreateClubAdminForm } from "@/components/admin/super/CreateClubAdminForm"
 import { Users, ShoppingBag, DollarSign, Trash2 } from "lucide-react"
 
 interface ClubDetailTabsProps {
@@ -57,8 +58,7 @@ export function ClubDetailTabs({ club }: ClubDetailTabsProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [isToggling, setIsToggling] = useState(false)
-  const [adminEmail, setAdminEmail] = useState("")
-  const [addingAdmin, setAddingAdmin] = useState(false)
+  const [, setAdminRefresh] = useState(0)
 
   const {
     register,
@@ -122,30 +122,6 @@ export function ClubDetailTabs({ club }: ClubDetailTabsProps) {
       toast.error("Something went wrong")
     } finally {
       setIsToggling(false)
-    }
-  }
-
-  async function addAdmin() {
-    if (!adminEmail) return
-    setAddingAdmin(true)
-    try {
-      const res = await fetch(`/api/admin/clubs/${club.id}/admins`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: adminEmail }),
-      })
-      const result = await res.json()
-      if (!res.ok) {
-        toast.error(result.error || "Failed to add admin")
-        return
-      }
-      toast.success("Admin added successfully")
-      setAdminEmail("")
-      router.refresh()
-    } catch {
-      toast.error("Something went wrong")
-    } finally {
-      setAddingAdmin(false)
     }
   }
 
@@ -424,21 +400,15 @@ export function ClubDetailTabs({ club }: ClubDetailTabsProps) {
         {/* Admins Tab */}
         <TabsContent value="admins">
           <div className="space-y-6 pt-4">
-            {/* Add Admin */}
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-              <h3 className="mb-4 text-lg font-semibold text-white">Add Admin</h3>
-              <div className="flex gap-3">
-                <Input
-                  placeholder="Enter user email..."
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                  className="border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500"
-                />
-                <Button onClick={addAdmin} disabled={addingAdmin || !adminEmail}>
-                  {addingAdmin ? "Adding..." : "Add Admin"}
-                </Button>
-              </div>
-            </div>
+            {/* Create Club Admin */}
+            <CreateClubAdminForm
+              clubId={club.id}
+              clubName={club.name}
+              onSuccess={() => {
+                setAdminRefresh(prev => prev + 1)
+                router.refresh()
+              }}
+            />
 
             {/* Current Admins */}
             <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">

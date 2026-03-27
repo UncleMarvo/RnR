@@ -66,6 +66,7 @@ model User {
   phone          String?
   role           UserRole  @default(PUBLIC)
   isActive              Boolean   @default(true)
+  mustChangePassword    Boolean   @default(false)
   passwordResetToken    String?   @unique
   passwordResetExpiry   DateTime?
   createdAt             DateTime  @default(now())

@@ -11,6 +11,7 @@ declare module "next-auth" {
       clubName: string | null
       impersonatingClubId: string | null
       impersonatingClubName: string | null
+      mustChangePassword: boolean
     } & DefaultSession["user"]
   }
 
@@ -21,6 +22,7 @@ declare module "next-auth" {
     lastName: string
     clubId: string | null
     clubName: string | null
+    mustChangePassword: boolean
   }
 }
 
@@ -34,5 +36,6 @@ declare module "next-auth/jwt" {
     clubName: string | null
     impersonatingClubId: string | null
     impersonatingClubName: string | null
+    mustChangePassword: boolean
   }
 }

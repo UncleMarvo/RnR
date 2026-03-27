@@ -51,6 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user.clubMembership?.club?.name ??
             user.clubAdmin?.club?.name ??
             null,
+          mustChangePassword: user.mustChangePassword,
         }
       },
     }),
@@ -64,6 +65,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.lastName = user.lastName
         token.clubId = user.clubId ?? null
         token.clubName = user.clubName ?? null
+        token.mustChangePassword = user.mustChangePassword ?? false
         token.impersonatingClubId = null
         token.impersonatingClubName = null
       }
@@ -76,6 +78,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.lastName = token.lastName as string
       session.user.clubId = token.clubId as string | null
       session.user.clubName = token.clubName as string | null
+      session.user.mustChangePassword = token.mustChangePassword as boolean
       session.user.impersonatingClubId =
         (token.impersonatingClubId as string | null) ?? null
       session.user.impersonatingClubName =

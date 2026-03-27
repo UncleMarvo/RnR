@@ -89,3 +89,12 @@ export const bulkInviteSchema = z.object({
 })
 
 export type BulkInviteInput = z.infer<typeof bulkInviteSchema>
+
+// Club Admin creation schema
+export const createClubAdminSchema = z.object({
+  firstName: z.string().min(2, "First name is required"),
+  lastName: z.string().min(2, "Last name is required"),
+  email: z.string().email("Please enter a valid email address"),
+})
+
+export type CreateClubAdminInput = z.infer<typeof createClubAdminSchema>

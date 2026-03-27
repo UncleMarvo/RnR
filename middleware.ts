@@ -52,6 +52,18 @@ export default auth((req: NextRequest & { auth: any }) => {
     )
   }
 
+  // Force password change if flagged
+  if (
+    session?.user?.mustChangePassword === true &&
+    !pathname.startsWith('/change-password') &&
+    !pathname.startsWith('/api/auth') &&
+    !pathname.startsWith('/api/account/change-password-forced') &&
+    !pathname.startsWith('/login') &&
+    pathname !== '/'
+  ) {
+    return NextResponse.redirect(new URL('/change-password', req.url))
+  }
+
   return NextResponse.next()
 })
 
@@ -63,5 +75,6 @@ export const config = {
     "/checkout/:path*",
     "/login",
     "/register",
+    "/change-password",
   ],
 }

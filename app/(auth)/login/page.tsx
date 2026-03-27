@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
@@ -27,7 +27,17 @@ function getDashboardUrl(role: string): string {
 }
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  )
+}
+
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const message = searchParams.get("message")
   const [isLoading, setIsLoading] = useState(false)
 
   const {
@@ -69,6 +79,11 @@ export default function LoginPage() {
 
   return (
     <Card className="border-zinc-800 bg-zinc-900">
+      {message === "password-changed" && (
+        <div className="mb-4 rounded-md border border-green-800 bg-green-900/20 px-4 py-3 text-center text-sm text-green-400">
+          Password changed successfully. Please log in with your new password.
+        </div>
+      )}
       <CardHeader className="space-y-2 text-center">
         <div className="mb-2">
           <h1 className="text-3xl font-bold tracking-tight text-white">
