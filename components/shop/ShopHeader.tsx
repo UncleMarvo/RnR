@@ -28,9 +28,9 @@ export function ShopHeader() {
               <CartIconButton />
               <UserMenu />
             </div>
+            {/* Mobile: cart icon only (account/login moves to bottom nav) */}
             <div className="flex items-center gap-2 md:hidden">
               <CartIconButton />
-              <MobileNav />
             </div>
           </div>
         </div>

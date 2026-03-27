@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react"
 import { SuperAdminNav } from "@/components/admin/super/SuperAdminNav"
 import { SuperAdminHeader } from "@/components/admin/super/SuperAdminHeader"
+import { SuperAdminBottomNav } from "@/components/admin/super/SuperAdminBottomNav"
 
 export default function SuperAdminLayout({
   children,
@@ -20,11 +21,12 @@ export default function SuperAdminLayout({
         {/* Main content */}
         <div className="flex flex-1 flex-col">
           <SuperAdminHeader />
-          <main className="flex-1 bg-zinc-900 px-6 py-8">
+          <main className="flex-1 bg-zinc-900 px-6 py-8 pb-20 md:pb-8">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
         </div>
       </div>
+      <SuperAdminBottomNav />
     </SessionProvider>
   )
 }

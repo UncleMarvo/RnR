@@ -255,6 +255,29 @@ Defined in middleware.ts:
 - Auto-login after registration (signIn() post-register API call) —
   verify runtime behaviour, may need workaround with NextAuth v5 beta
 
+## ⚠️ Production Migration Warning
+
+### Never use `prisma db push` on production
+Early in development `prisma db push` was used to sync
+schema changes directly to the Railway PostgreSQL database.
+This bypasses the `_prisma_migrations` table and causes
+conflicts when `prisma migrate deploy` runs on deployment.
+
+### Symptom
+Railway deployment fails with:
+`Error: P3009 — migrate found failed migrations`
+Column already exists error in the logs.
+
+### Fix (run in pgAdmin each time)
+1. DELETE the stuck migration record
+2. INSERT it back with finished_at = NOW() and
+   applied_steps_count = 1
+3. Trigger redeploy with empty git commit
+
+### Going Forward
+Always use `npm run db:migrate` locally to create migrations.
+Never use `prisma db push` on any environment.
+
 ---
 
 ## Coding Conventions

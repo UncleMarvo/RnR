@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react"
 import { ClubAdminNav } from "@/components/admin/club/ClubAdminNav"
 import { ClubAdminHeader } from "@/components/admin/club/ClubAdminHeader"
+import { ClubAdminBottomNav } from "@/components/admin/club/ClubAdminBottomNav"
 import { ImpersonationBanner } from "@/components/admin/shared/ImpersonationBanner"
 
 export default function ClubAdminLayout({
@@ -22,11 +23,12 @@ export default function ClubAdminLayout({
         {/* Main content */}
         <div className="flex flex-1 flex-col">
           <ClubAdminHeader />
-          <main className="flex-1 bg-zinc-900 px-6 py-8">
+          <main className="flex-1 bg-zinc-900 px-6 py-8 pb-20 md:pb-8">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
         </div>
       </div>
+      <ClubAdminBottomNav />
     </SessionProvider>
   )
 }

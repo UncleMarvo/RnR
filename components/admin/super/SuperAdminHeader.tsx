@@ -15,8 +15,8 @@ export function SuperAdminHeader() {
 
   return (
     <>
-      {/* Mobile header bar */}
-      <header className="flex items-center justify-between border-b border-zinc-800 bg-zinc-950 px-4 py-3 lg:hidden">
+      {/* Mobile header bar — hidden below md (bottom nav), visible md to lg */}
+      <header className="hidden md:flex items-center justify-between border-b border-zinc-800 bg-zinc-950 px-4 py-3 lg:hidden">
         <button
           onClick={() => setDrawerOpen(true)}
           className="text-zinc-400 hover:text-white"
@@ -31,9 +31,9 @@ export function SuperAdminHeader() {
         </div>
       </header>
 
-      {/* Mobile drawer overlay */}
+      {/* Drawer overlay — md to lg range only */}
       {drawerOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 hidden md:block lg:hidden">
           <div
             className="absolute inset-0 bg-black/60"
             onClick={() => setDrawerOpen(false)}

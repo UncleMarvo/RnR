@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import { PWARegister } from "@/components/PWARegister"
 import { CookieBanner } from "@/components/gdpr/CookieBanner"
+import { InstallBanner } from "@/components/pwa/InstallBanner"
 import "./globals.css"
 
 const inter = Inter({
@@ -26,6 +27,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: "#09090b",
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
@@ -42,6 +44,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <CookieBanner />
+        <InstallBanner />
         <PWARegister />
       </body>
     </html>
