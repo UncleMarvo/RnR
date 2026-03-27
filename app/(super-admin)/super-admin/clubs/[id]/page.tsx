@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { formatPrice } from "@/lib/utils"
 import Link from "next/link"
-import { Settings, UserCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Settings } from "lucide-react"
+import { ImpersonateButton } from "@/components/admin/super/ImpersonateButton"
 import { AdminPageHeader } from "@/components/admin/shared/AdminPageHeader"
 import { StatusBadge } from "@/components/admin/shared/StatusBadge"
 import { ClubDetailTabs } from "./ClubDetailTabs"
@@ -95,10 +95,10 @@ export default async function ClubDetailPage({
               <Settings className="h-4 w-4" />
               Settings
             </Link>
-            <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
-              <UserCheck className="mr-2 h-4 w-4" />
-              Impersonate
-            </Button>
+            <ImpersonateButton
+              clubId={club.id}
+              clubName={club.name}
+            />
           </div>
         }
       />
