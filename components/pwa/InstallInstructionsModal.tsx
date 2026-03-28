@@ -103,6 +103,7 @@ export function InstallInstructionsModal({
         )}
 
         <button
+          type="button"
           onClick={onClose}
           className="w-full bg-white text-black font-medium rounded-xl py-3 text-sm">
           Done — take me to register

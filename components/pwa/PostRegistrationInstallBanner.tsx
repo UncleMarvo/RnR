@@ -34,6 +34,7 @@ export function PostRegistrationInstallBanner() {
       <div className="fixed bottom-20 left-4 right-4 z-40 bg-zinc-800 border border-zinc-700 rounded-xl p-4 shadow-xl animate-in slide-in-from-bottom-4">
 
         <button
+          type="button"
           onClick={() => setVisible(false)}
           className="absolute top-3 right-3 text-zinc-500 hover:text-zinc-300">
           <X className="w-4 h-4" />
@@ -52,6 +53,7 @@ export function PostRegistrationInstallBanner() {
         </div>
 
         <button
+          type="button"
           onClick={() => {
             setShowModal(true)
             markInstallPrompted()

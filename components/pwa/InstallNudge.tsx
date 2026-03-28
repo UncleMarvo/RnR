@@ -42,6 +42,7 @@ export function InstallNudge({ clubName }: Props) {
 
         {/* Dismiss button */}
         <button
+          type="button"
           onClick={handleDismiss}
           className="absolute top-3 right-3 text-zinc-500 hover:text-zinc-300 min-h-[44px] min-w-[44px] flex items-center justify-center">
           <X className="w-4 h-4" />
@@ -62,6 +63,7 @@ export function InstallNudge({ clubName }: Props) {
         </div>
 
         <button
+          type="button"
           onClick={handleShowMe}
           className="mt-3 w-full bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium rounded-lg py-2.5 transition-colors">
           Show me how →
