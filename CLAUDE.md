@@ -343,6 +343,7 @@ Any route → redirect to /change-password if mustChangePassword
 | Club Admin Creation Flow | ✅ Complete |
 | Mobile Native Feel | ✅ Complete |
 | Railway Deployment | ✅ Live |
+| PWA install onboarding | ✅ Complete |
 | Full E2E Test | ✅ Passed |
 | Custom Domain | 🔲 Pending client |
 | Production Stripe keys | 🔲 Pending go-live |
@@ -356,10 +357,9 @@ Any route → redirect to /change-password if mustChangePassword
 - Export CSV for club members (placeholder — "Coming soon")
 - Revenue share email notifications
 - Order status email notifications to members
-- PWA install onboarding — guided install flow for
-  non-technical users (invite landing page + Club Admin
-  shareable WhatsApp message with step-by-step install
-  instructions). Pending client decision on approach.
+- PWA install onboarding — ✅ COMPLETE (invite nudge,
+  device-specific instructions, post-registration banner,
+  Club Admin WhatsApp message copy)
 
 ---
 
@@ -389,5 +389,15 @@ Any route → redirect to /change-password if mustChangePassword
 
 ---
 
-*Last updated: Full E2E test passed — pending domain + go-live*
+## Cookie Banner
+Single "Got it" acknowledgement button — no Decline/Accept.
+We use essential cookies only (session + cart localStorage).
+Inline Privacy Policy link included.
+Essential-only cookies do not require consent choice under
+Irish/EU GDPR — acknowledgement is sufficient.
+
+---
+
+*Last updated: PWA install onboarding complete,
+cookie banner simplified*
 *Repo: https://github.com/UncleMarvo/RnR*
