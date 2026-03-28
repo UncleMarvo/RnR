@@ -356,6 +356,10 @@ Any route → redirect to /change-password if mustChangePassword
 - Export CSV for club members (placeholder — "Coming soon")
 - Revenue share email notifications
 - Order status email notifications to members
+- PWA install onboarding — guided install flow for
+  non-technical users (invite landing page + Club Admin
+  shareable WhatsApp message with step-by-step install
+  instructions). Pending client decision on approach.
 
 ---
 
