@@ -186,17 +186,9 @@ export default async function ClubAdminDashboard() {
             </div>
           </>
         ) : (
-          <>
-            <p className="text-sm text-zinc-400 mb-4">
-              No members have joined yet. Share your invite link to get started!
-            </p>
-            <Link
-              href="/club-admin/invites"
-              className="inline-flex items-center gap-1 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
-            >
-              Invite Members <ArrowRight className="h-4 w-4" />
-            </Link>
-          </>
+          <p className="text-zinc-400 text-sm">
+            No members have joined yet. Share your invite link from the Invites page to get started.
+          </p>
         )}
       </div>
 

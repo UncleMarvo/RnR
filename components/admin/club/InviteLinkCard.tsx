@@ -82,7 +82,7 @@ export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 w-full overflow-hidden">
       <div className="mb-4 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-900/30">
           <Link2 className="h-5 w-5 text-blue-400" />
@@ -96,13 +96,13 @@ export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
       </div>
 
       {/* Link display + copy */}
-      <div className="mb-4 flex items-center gap-2">
-        <div className="flex-1 overflow-hidden rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2">
-          <p className="truncate text-sm text-zinc-300">{registrationUrl}</p>
+      <div className="mb-4 flex items-center gap-2 min-w-0">
+        <div className="flex-1 min-w-0 overflow-hidden rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2">
+          <p className="truncate text-sm text-zinc-300 min-w-0">{registrationUrl}</p>
         </div>
         <button
           onClick={handleCopy}
-          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-zinc-200 whitespace-nowrap"
         >
           {copied ? (
             <>
@@ -123,7 +123,7 @@ export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
         onClick={handleWhatsApp}
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
       >
-        <MessageCircle className="h-4 w-4" />
+        <MessageCircle className="h-4 w-4 shrink-0" />
         Share on WhatsApp
       </button>
 
