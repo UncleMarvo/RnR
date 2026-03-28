@@ -23,12 +23,10 @@ export function InstallNudge({ clubName }: Props) {
     setVisible(shouldShowInstallPrompt())
   }, [])
 
-  if (!visible) return null
-
   function handleShowMe() {
-    setShowModal(true)
     markInstallPrompted()
     setVisible(false)
+    setTimeout(() => setShowModal(true), 50)
   }
 
   function handleDismiss() {
@@ -38,37 +36,39 @@ export function InstallNudge({ clubName }: Props) {
 
   return (
     <>
-      <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 relative">
+      {visible && (
+        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 relative">
 
-        {/* Dismiss button */}
-        <button
-          type="button"
-          onClick={handleDismiss}
-          className="absolute top-3 right-3 text-zinc-500 hover:text-zinc-300 min-h-[44px] min-w-[44px] flex items-center justify-center">
-          <X className="w-4 h-4" />
-        </button>
+          {/* Dismiss button */}
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="absolute top-3 right-3 text-zinc-500 hover:text-zinc-300 min-h-[44px] min-w-[44px] flex items-center justify-center">
+            <X className="w-4 h-4" />
+          </button>
 
-        <div className="flex items-start gap-3 pr-8">
-          <div className="bg-zinc-700 rounded-lg p-2 shrink-0">
-            <Smartphone className="w-5 h-5 text-zinc-300" />
+          <div className="flex items-start gap-3 pr-8">
+            <div className="bg-zinc-700 rounded-lg p-2 shrink-0">
+              <Smartphone className="w-5 h-5 text-zinc-300" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-white text-sm font-medium">
+                Get the best experience
+              </p>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Add R+R to your home screen for quick access — just like a regular app.
+              </p>
+            </div>
           </div>
-          <div className="space-y-1">
-            <p className="text-white text-sm font-medium">
-              Get the best experience
-            </p>
-            <p className="text-zinc-400 text-xs leading-relaxed">
-              Add R+R to your home screen for quick access — just like a regular app.
-            </p>
-          </div>
+
+          <button
+            type="button"
+            onClick={handleShowMe}
+            className="mt-3 w-full bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium rounded-lg py-2.5 transition-colors">
+            Show me how →
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={handleShowMe}
-          className="mt-3 w-full bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium rounded-lg py-2.5 transition-colors">
-          Show me how →
-        </button>
-      </div>
+      )}
 
       <InstallInstructionsModal
         isOpen={showModal}
