@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic"
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
+  console.log('Webhook received:', new Date().toISOString())
   const sig = request.headers.get("stripe-signature")
 
   if (!sig) {
@@ -25,12 +26,15 @@ export async function POST(request: NextRequest) {
     )
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error"
+    console.error("Webhook error:", err)
     console.error("Webhook signature verification failed:", message)
     return NextResponse.json(
       { error: `Webhook Error: ${message}` },
       { status: 400 }
     )
   }
+
+  console.log('Webhook event type:', event.type)
 
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object
@@ -160,7 +164,7 @@ export async function POST(request: NextRequest) {
         })
       })
     } catch (err) {
-      console.error("Failed to create order from webhook:", err)
+      console.error("Webhook error:", err)
       return NextResponse.json(
         { error: "Order creation failed" },
         { status: 500 }

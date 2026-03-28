@@ -21,13 +21,11 @@ interface CartStore {
   removeItem: (variantId: string) => void
   updateQuantity: (variantId: string, quantity: number) => void
   clearCart: () => void
-  get totalItems(): number
-  get subtotal(): number
 }
 
 export const useCart = create<CartStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       items: [],
 
       _hasHydrated: false,
@@ -76,17 +74,6 @@ export const useCart = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [] }),
-
-      get totalItems() {
-        return get().items.reduce((sum, i) => sum + i.quantity, 0)
-      },
-
-      get subtotal() {
-        return get().items.reduce(
-          (sum, i) => sum + i.price * i.quantity,
-          0
-        )
-      },
     }),
     {
       name: "rnr-cart",
