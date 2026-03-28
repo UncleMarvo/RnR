@@ -12,7 +12,7 @@ import { InstallInstructionsModal } from "./InstallInstructionsModal"
 export function PostRegistrationInstallBanner() {
   const [visible, setVisible] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'desktop' | 'other'>('other')
+  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'samsung' | 'desktop' | 'other'>('other')
 
   useEffect(() => {
     setDeviceType(getDeviceType())

@@ -1,7 +1,8 @@
-export function getDeviceType(): 'ios' | 'android' | 'desktop' | 'other' {
+export function getDeviceType(): 'ios' | 'android' | 'samsung' | 'desktop' | 'other' {
   if (typeof window === 'undefined') return 'other'
   const ua = navigator.userAgent
   if (/iPad|iPhone|iPod/.test(ua)) return 'ios'
+  if (/SamsungBrowser/.test(ua)) return 'samsung'
   if (/Android/.test(ua)) return 'android'
   if (/Windows|Mac|Linux/.test(ua)) return 'desktop'
   return 'other'
