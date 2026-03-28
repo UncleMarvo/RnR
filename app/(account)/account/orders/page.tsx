@@ -5,6 +5,7 @@ import Link from "next/link"
 import { formatPrice } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { RefreshButton } from "@/components/account/RefreshButton"
 
 export const dynamic = 'force-dynamic'
 
@@ -41,8 +42,12 @@ export default async function OrdersPage() {
             View your order history
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-12 text-center">
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-12 text-center space-y-3">
           <p className="text-zinc-400">You haven&apos;t placed any orders yet.</p>
+          <p className="text-zinc-500 text-sm">
+            If you just placed an order, it may take a moment to appear.
+          </p>
+          <RefreshButton />
           <Link href="/">
             <Button className="mt-4">Browse Products</Button>
           </Link>

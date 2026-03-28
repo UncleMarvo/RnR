@@ -51,6 +51,21 @@ function CartContent() {
     discountPercentage
   )
 
+  if (!isHydrated) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <h1 className="text-2xl font-bold text-zinc-100 sm:text-3xl">
+          Your Cart
+        </h1>
+        <div className="mt-8 animate-pulse space-y-4">
+          <div className="h-24 rounded-xl bg-zinc-800" />
+          <div className="h-24 rounded-xl bg-zinc-800" />
+          <div className="h-6 w-1/3 rounded bg-zinc-800" />
+        </div>
+      </div>
+    )
+  }
+
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">

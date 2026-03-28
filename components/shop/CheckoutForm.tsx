@@ -56,6 +56,7 @@ export function CheckoutForm({ clientSecret, total }: Props) {
       <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
         <CardElement
           options={{
+            hidePostalCode: true,
             style: {
               base: {
                 fontSize: "16px",

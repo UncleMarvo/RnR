@@ -51,41 +51,57 @@ function SuccessContent() {
   const { clearCart } = useCart()
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [cleared, setCleared] = useState(false)
+  const [attempts, setAttempts] = useState(0)
+  const [cartCleared, setCartCleared] = useState(false)
 
-  // Clear cart once
-  useEffect(() => {
-    if (!cleared) {
-      clearCart()
-      setCleared(true)
-    }
-  }, [clearCart, cleared])
-
-  // Fetch order details
+  // Poll for order (webhook may not have fired yet)
   useEffect(() => {
     if (!paymentIntentId) {
       setLoading(false)
       return
     }
 
-    async function fetchOrder() {
-      try {
-        const res = await fetch(
-          `/api/orders?payment_intent=${paymentIntentId}`
-        )
-        const data = await res.json()
-        if (data.order) setOrder(data.order)
-      } catch {
-        // Order may not be created yet (webhook delay)
-      } finally {
-        setLoading(false)
+    let cancelled = false
+
+    async function pollForOrder() {
+      for (let i = 0; i < 10; i++) {
+        if (cancelled) return
+        setAttempts(i + 1)
+
+        try {
+          const res = await fetch(
+            `/api/orders?payment_intent=${paymentIntentId}`
+          )
+          const data = await res.json()
+
+          if (data.order) {
+            setOrder(data.order)
+            setLoading(false)
+            return
+          }
+        } catch {
+          // Order may not be created yet
+        }
+
+        // Wait 1 second before next attempt
+        await new Promise((r) => setTimeout(r, 1000))
       }
+
+      // After 10 attempts, stop loading (show fallback)
+      if (!cancelled) setLoading(false)
     }
 
-    // Give webhook a moment to process
-    const timer = setTimeout(fetchOrder, 2000)
-    return () => clearTimeout(timer)
+    pollForOrder()
+    return () => { cancelled = true }
   }, [paymentIntentId])
+
+  // Clear cart only when order is confirmed (or after polling exhausted)
+  useEffect(() => {
+    if (!cartCleared && !loading) {
+      clearCart()
+      setCartCleared(true)
+    }
+  }, [loading, cartCleared, clearCart])
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:px-8">
@@ -100,8 +116,11 @@ function SuccessContent() {
       </div>
 
       {loading ? (
-        <div className="mt-8 flex justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+        <div className="mt-8 text-center space-y-3">
+          <Loader2 className="mx-auto h-6 w-6 animate-spin text-zinc-400" />
+          <p className="text-sm text-zinc-500">
+            Confirming your order{attempts > 0 ? ` (${attempts}/10)` : ""}...
+          </p>
         </div>
       ) : order ? (
         <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6">
