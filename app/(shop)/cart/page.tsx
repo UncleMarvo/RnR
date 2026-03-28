@@ -92,9 +92,9 @@ function CartContent() {
         Your Cart
       </h1>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-3">
+      <div className="mt-8 grid gap-8 lg:grid-cols-3 overflow-hidden">
         {/* Cart Items */}
-        <div className="space-y-4 lg:col-span-2">
+        <div className="min-w-0 space-y-4 lg:col-span-2">
           {items.map((item) => (
             <CartItem
               key={item.variantId}
@@ -106,7 +106,7 @@ function CartContent() {
         </div>
 
         {/* Order Summary */}
-        <div>
+        <div className="min-w-0">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
             <h2 className="text-lg font-semibold text-zinc-100">
               Order Summary
