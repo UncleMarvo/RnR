@@ -44,9 +44,18 @@ export async function GET() {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const registrationUrl = `${appUrl}/invite/${invite.token}`
 
+    // Include the club contact name for the WhatsApp template
+    const clubAdmin = await prisma.clubAdmin.findFirst({
+      where: { clubId },
+      include: { user: true }
+    })
+
     return NextResponse.json({
       token: invite.token,
       registrationUrl,
+      contactName: clubAdmin
+        ? `${clubAdmin.user.firstName} ${clubAdmin.user.lastName}`
+        : 'your club admin'
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Server error"

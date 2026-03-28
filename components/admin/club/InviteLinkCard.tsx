@@ -8,11 +8,34 @@ interface InviteLinkCardProps {
   clubName: string
 }
 
+function generateWhatsAppMessage(
+  clubName: string,
+  contactName: string,
+  inviteUrl: string
+): string {
+  return `\u{1F3CB}\uFE0F ${clubName} is now on R+R!
+
+Order your supplements and have them delivered straight to the club.
+
+\u{1F449} Join here: ${inviteUrl}
+
+Quick setup (takes 1 min):
+1. Open the link above on your phone
+2. Add to your home screen:
+   \u2022 iPhone: tap Share then "Add to Home Screen"
+   \u2022 Android: tap Menu then "Add to Home Screen"
+3. Register and start ordering! \u{1F4AA}
+
+Any questions? Ask ${contactName}`
+}
+
 export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
   const [registrationUrl, setRegistrationUrl] = useState<string | null>(null)
+  const [contactName, setContactName] = useState<string>("your club admin")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [messageCopied, setMessageCopied] = useState(false)
 
   useEffect(() => {
     async function fetchPermanentLink() {
@@ -21,6 +44,7 @@ export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
         const data = await res.json()
         if (res.ok) {
           setRegistrationUrl(data.registrationUrl)
+          if (data.contactName) setContactName(data.contactName)
         } else {
           setError("Could not load your invite link. Please try refreshing the page.")
         }
@@ -132,6 +156,43 @@ export function InviteLinkCard({ clubId, clubName }: InviteLinkCardProps) {
           Link copied! You can now paste it anywhere.
         </p>
       )}
+
+      {/* Copy invite message */}
+      <div className="mt-3 pt-3 border-t border-zinc-700">
+        <p className="text-zinc-500 text-xs mb-2">
+          Share via WhatsApp, text or email:
+        </p>
+        <button
+          onClick={async () => {
+            if (!registrationUrl) return
+            const message = generateWhatsAppMessage(clubName, contactName, registrationUrl)
+            try {
+              await navigator.clipboard.writeText(message)
+            } catch {
+              const textArea = document.createElement("textarea")
+              textArea.value = message
+              document.body.appendChild(textArea)
+              textArea.select()
+              document.execCommand("copy")
+              document.body.removeChild(textArea)
+            }
+            setMessageCopied(true)
+            setTimeout(() => setMessageCopied(false), 3000)
+          }}
+          className="w-full bg-zinc-700 hover:bg-zinc-600 text-white text-sm rounded-lg py-2.5 transition-colors flex items-center justify-center gap-2"
+        >
+          {messageCopied ? (
+            <><Check className="h-4 w-4" /> Message copied!</>
+          ) : (
+            <><Copy className="h-4 w-4" /> Copy invite message</>
+          )}
+        </button>
+        {messageCopied && (
+          <p className="text-zinc-500 text-xs text-center mt-1">
+            Paste it into WhatsApp, text or email
+          </p>
+        )}
+      </div>
     </div>
   )
 }

@@ -69,7 +69,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Welcome to R+R!")
-      router.push("/")
+      router.push("/?welcome=1")
       router.refresh()
     } catch {
       toast.error("Something went wrong. Please try again.")

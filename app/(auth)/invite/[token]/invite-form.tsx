@@ -111,7 +111,7 @@ export function InviteForm({
       }
 
       toast.success(`Welcome to ${invite.valid ? invite.clubName : "R+R"}!`)
-      router.push("/")
+      router.push("/?welcome=1")
       router.refresh()
     } catch {
       toast.error("Something went wrong. Please try again.")

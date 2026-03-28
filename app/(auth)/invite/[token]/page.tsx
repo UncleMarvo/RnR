@@ -1,4 +1,5 @@
 import { InviteForm } from "./invite-form"
+import { InstallNudge } from "@/components/pwa/InstallNudge"
 
 export const dynamic = 'force-dynamic'
 
@@ -24,5 +25,10 @@ export default async function InvitePage({
     invite = { valid: false, reason: "not_found" }
   }
 
-  return <InviteForm token={token} invite={invite} />
+  return (
+    <div className="space-y-4">
+      {invite.valid && <InstallNudge clubName={invite.clubName} />}
+      <InviteForm token={token} invite={invite} />
+    </div>
+  )
 }

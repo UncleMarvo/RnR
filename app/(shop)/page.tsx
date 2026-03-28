@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/prisma"
 import { ProductCard } from "@/components/shop/ProductCard"
+import { PostRegistrationInstallBanner } from "@/components/pwa/PostRegistrationInstallBanner"
 import type { ProductWithVariants } from "@/types"
 
 export const dynamic = 'force-dynamic'
 
-export default async function ShopPage() {
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const params = await searchParams
   const products = await prisma.product.findMany({
     where: { isActive: true },
     orderBy: { sortOrder: "asc" },
@@ -41,6 +47,7 @@ export default async function ShopPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      {params?.welcome === '1' && <PostRegistrationInstallBanner />}
       <div className="mb-12 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
           Our Products

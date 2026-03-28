@@ -3,7 +3,6 @@ import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
 import { PWARegister } from "@/components/PWARegister"
 import { CookieBanner } from "@/components/gdpr/CookieBanner"
-import { InstallBanner } from "@/components/pwa/InstallBanner"
 import "./globals.css"
 
 const inter = Inter({
@@ -44,7 +43,6 @@ export default function RootLayout({
         {children}
         <Toaster />
         <CookieBanner />
-        <InstallBanner />
         <PWARegister />
       </body>
     </html>
