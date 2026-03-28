@@ -72,7 +72,7 @@ export default function CreateClubPage() {
       }
 
       toast.success("Club created successfully")
-      router.push(`/super-admin/clubs/${result.club.id}/settings`)
+      router.push(`/super-admin/clubs/${result.club.id}`)
     } catch {
       toast.error("Something went wrong")
     } finally {
