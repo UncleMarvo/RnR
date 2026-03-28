@@ -21,9 +21,9 @@ export default function ClubAdminLayout({
         </aside>
 
         {/* Main content */}
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col min-w-0">
           <ClubAdminHeader />
-          <main className="flex-1 bg-zinc-900 px-6 py-8 pb-20 md:pb-8">
+          <main className="flex-1 overflow-hidden w-full max-w-full bg-zinc-900 p-4 md:p-6 lg:p-8 pb-24 md:pb-8">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
         </div>

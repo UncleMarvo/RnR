@@ -35,7 +35,7 @@ export default async function ClubAdminInvites() {
   const totalMembers = await prisma.clubMember.count({ where: { clubId } })
 
   return (
-    <div className="space-y-6 px-4 py-6 max-w-full overflow-hidden">
+    <div className="w-full max-w-full overflow-hidden space-y-6">
       {/* Section 1 — Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-white">Invite Your Members</h1>
@@ -52,7 +52,7 @@ export default async function ClubAdminInvites() {
       <EmailInviteSection />
 
       {/* Section 4 — Who Has Joined */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+      <div className="w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-5">
         <div className="flex items-center gap-3 mb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800">
             <Users className="h-5 w-5 text-zinc-400" />

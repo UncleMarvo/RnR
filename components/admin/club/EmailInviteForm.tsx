@@ -92,7 +92,7 @@ export function EmailInviteForm({ onSuccess }: EmailInviteFormProps) {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900">
+    <div className="w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
       {/* Collapsible header */}
       <button
         onClick={() => setExpanded(!expanded)}
